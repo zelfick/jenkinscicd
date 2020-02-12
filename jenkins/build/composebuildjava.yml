@@ -1,0 +1,13 @@
+version: '3'
+services:
+  javarunapp:
+  #we associate a  global variable BUILD_TAG related to jenkins variable
+  # we can use the tag directly needed for our dockerhub repository
+  #  image: "javarunapp:$BUILD_TAG"
+  #we would change javarunapp, to the new repository created in dockerhub zelfick/jenkinsmvnproject:tagname
+    image: "jenkinsmvnproject:$BUILD_TAG"
+    build:
+      context: .
+      dockerfile: Dockerfile-Java
+  
+  #if you are running manually set BUILD_TAG Manually to some value

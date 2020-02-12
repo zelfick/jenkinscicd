@@ -1,0 +1,35 @@
+pipeline {
+    agent any
+    stages {
+        stage('build') {
+            steps {
+                sh '''
+                echo "This is the bulding stage"
+                echo "Creating a jar file"
+                ./jenkins/build/mvn.sh -B -DskipTests clean package
+                echo "Creating an image"
+                ./jenkins/build/build.sh
+                '''
+            }
+        }
+        stage('test') {
+            steps {
+                sh 'echo "This is the testing stage"'
+                sh './jenkins/test/mvntest.sh mvn test'
+
+            }
+        }
+        stage('push') {
+            steps {
+                sh 'echo "Copying artifacts docker images to docker registry"'
+                sh './jenkins/push/push.sh'
+            }
+        }
+        stage('deploy') {
+            steps {
+                sh 'echo "This is the deploying stage"'
+                sh './jenkins/deploy/deploy.sh'
+            }
+        }
+    }
+}

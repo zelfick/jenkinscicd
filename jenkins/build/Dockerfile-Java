@@ -1,0 +1,15 @@
+
+#we create a container to build the java image
+FROM openjdk:8-jre-alpine
+
+#we  make a dir to standarize location of files
+RUN mkdir /app
+
+#We copy the generated java file as standarized name app.jar
+# if we want to copy the jar directly from where it was generated
+#COPY ../../java-app/target/*.jar /app/app.jar
+COPY *.jar /app/app.jar
+
+#we run now the application
+
+CMD java -jar /app/app.jar
